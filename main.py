@@ -23,13 +23,12 @@ def index():
         ])
 
         subprocess.run([
-    "ffmpeg", "-y", "-i", raw_video,
-    "-ss", start, "-to", end,
-    "-c:v", "libx264", "-preset", "ultrafast",
-    "-c:a", "aac", "-b:a", "128k",
-    clipped_video
-])
-
+            "ffmpeg", "-y", "-i", raw_video,
+            "-ss", start, "-to", end,
+            "-c:v", "libx264", "-preset", "ultrafast",
+            "-c:a", "aac", "-b:a", "128k",
+            clipped_video
+        ])
 
         os.remove(raw_video)
         return send_file(clipped_video, as_attachment=True)
@@ -37,4 +36,5 @@ def index():
     return render_template("index.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host="0.0.0.0", port=port)
